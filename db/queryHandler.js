@@ -1,9 +1,17 @@
 const { pgClient } = require('./pgClient');
-const { SELECTHEROQUERY, SELECTHERORELATIONSHIPQUERY } = require('./queries');
+const { SELECTHEROQUERY, SELECTHEROLISTQUERY, SELECTHERORELATIONSHIPQUERY } = require('./queries');
 
 async function getHero(id) {
   const response = await pgClient.query(SELECTHEROQUERY, [id]);
+  return response.rows[0];
+}
 
+async function getHeroList(from, to) {
+  if (from > to) {
+    [from, to] = [to, from];
+  }
+
+  const response = await pgClient.query(SELECTHEROLISTQUERY, [from, to]);
   return response.rows;
 }
 
@@ -24,5 +32,6 @@ async function getRelationShips(id) {
 
 module.exports = {
   getHero,
+  getHeroList,
   getRelationShips,
 };

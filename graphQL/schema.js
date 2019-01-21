@@ -5,10 +5,11 @@ const {
   GraphQLEnumType,
   GraphQLList,
   GraphQLID,
+  GraphQLInt,
   GraphQLNonNull,
 } = require('graphql');
 
-const { resolveHero, resolveRelationShip } = require('./resolvers');
+const { getHero, getHeroList, getRelationShips } = require('../db/queryHandler');
 
 // Hero Class Type
 const HeroClassType = new GraphQLEnumType({
@@ -29,7 +30,7 @@ const HeroRelationshipType = new GraphQLObjectType({
     description: { type: GraphQLString },
     otherHero: {
       type: HeroType,
-      resolve: async root => await resolveHero(undefined, { heroId: root.otherHero }),
+      resolve: async ({ otherHero }) => await getHero(otherHero),
     },
   }),
 });
@@ -62,7 +63,7 @@ const HeroType = new GraphQLObjectType({
     },
     relationships: {
       type: new GraphQLList(HeroRelationshipType),
-      resolve: resolveRelationShip,
+      resolve: async ({ hero_id }) => await getRelationShips(hero_id),
     },
   }),
 });
@@ -75,7 +76,15 @@ const RootQuery = new GraphQLObjectType({
       args: {
         heroId: { type: new GraphQLNonNull(GraphQLID) },
       },
-      resolve: resolveHero,
+      resolve: async (_, { heroId }) => await getHero(heroId),
+    },
+    heroList: {
+      type: new GraphQLList(HeroType),
+      args: {
+        from: { type: new GraphQLNonNull(GraphQLInt) },
+        to: { type: new GraphQLNonNull(GraphQLInt) },
+      },
+      resolve: async (_, { from, to }) => await getHeroList(from, to),
     },
   },
 });
