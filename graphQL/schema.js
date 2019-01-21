@@ -40,7 +40,10 @@ const HeroType = new GraphQLObjectType({
   description: 'An Overwatch Hero',
   fields: () => ({
     name: { type: GraphQLString },
-    class: { type: HeroClassType },
+    heroClass: {
+      type: HeroClassType,
+      resolve: root => root.class,
+    },
     heroId: {
       type: GraphQLString,
       resolve: root => root.hero_id,
