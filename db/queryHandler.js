@@ -6,11 +6,8 @@ async function getHero(id) {
   return response.rows[0];
 }
 
-async function getHeroList(from, to) {
-  if (from > to) {
-    [from, to] = [to, from];
-  }
-
+async function getHeroList(from, count) {
+  const to = Number(from) + Number(count) - 1;
   const response = await pgClient.query(SELECTHEROLISTQUERY, [from, to]);
   return response.rows;
 }
