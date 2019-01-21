@@ -43,7 +43,7 @@ const HeroType = new GraphQLObjectType({
     name: { type: GraphQLString },
     heroClass: {
       type: HeroClassType,
-      resolve: root => root.class,
+      resolve: root => root.hero_class,
     },
     heroId: {
       type: GraphQLString,

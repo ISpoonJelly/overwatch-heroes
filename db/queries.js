@@ -1,8 +1,8 @@
 const CREATECLASSENUMQUERY = `
 DO $$
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'hero_class') THEN
-    CREATE TYPE hero_class as enum('TANK', 'DAMAGE', 'SUPPORT');
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'hero_class_type') THEN
+    CREATE TYPE hero_class_type as enum('TANK', 'DAMAGE', 'SUPPORT');
   END IF;
 END$$
 ;`;
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS heroes(
   hero_id                 integer UNIQUE NOT NULL,
   name                    varchar(255) NOT NULL,
   slug                    varchar(255) NOT NULL,
-  class                   hero_class NOT NULL,
+  hero_class              hero_class_type NOT NULL,
   image_portrait          TEXT,
   image_splash            TEXT,
   image_card_background   TEXT
@@ -32,7 +32,7 @@ INSERT INTO heroes(
   hero_id,
   name,
   slug,
-  class,
+  hero_class,
   image_portrait,
   image_splash,
   image_card_background

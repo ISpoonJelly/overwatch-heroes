@@ -11,51 +11,56 @@ async function loadDataFromS3() {
   return response.data.data;
 }
 
-function heroDataMapper(heroData) {
-  const { name, slug, image_portrait, image_splash, image_card_background } = heroData.attributes;
-  return {
-    hero_id: heroData.id,
-    name,
-    slug,
-    class: mapNameToClass(slug),
-    image_portrait,
-    image_splash,
-    image_card_background,
-  };
-}
-
 async function insertHeroesIntoDB(pgClient, heroData) {
+  // TODO: enhance by doing bulk insertions instead of querying inside a loop
   heroData.forEach(hero => {
-    pgClient.query(INSERTHEROQUERY, Object.values(hero));
+    const {
+      hero_id,
+      name,
+      slug,
+      hero_class,
+      image_portrait,
+      image_splash,
+      image_card_background,
+    } = hero;
+
+    pgClient.query(INSERTHEROQUERY, [
+      hero_id,
+      name,
+      slug,
+      hero_class,
+      image_portrait,
+      image_splash,
+      image_card_background,
+    ]);
   });
 }
 
 async function insertRelationshipsIntoDB(pgClient, heroData, heroRelationShips) {
-  heroRelationShips
-    .map(relationship => {
-      const foundFirst = heroData.find(hero => hero.slug === relationship.first_hero);
-      const first_hero_id = foundFirst? foundFirst.hero_id: '';
+  // TODO: enhance by doing bulk insertions instead of querying inside a loop
+  heroRelationShips.forEach(relationship => {
+    const { first_hero, second_hero, title, description } = relationship;
+    const foundFirst = heroData.find(hero => hero.slug === first_hero);
+    const foundSecond = heroData.find(hero => hero.slug === second_hero);
 
-      const foundSecond = heroData.find(hero => hero.slug === relationship.second_hero);
-      const second_hero_id = foundSecond? foundSecond.hero_id: '';
+    if (!foundFirst || !foundSecond) return;
 
-      return {
-        first_hero_id,
-        second_hero_id,
-        title: relationship.title,
-        description: relationship.description,
-      };
-    })
-    .forEach(relationship => {
-      if(!relationship.first_hero_id || !relationship.second_hero_id) return;
+    pgClient.query(INSERTRELATIONSHIPQUERY, [
+      foundFirst.hero_id,
+      foundSecond.hero_id,
+      title,
+      description,
+    ]);
+  });
+}
 
-      pgClient.query(INSERTRELATIONSHIPQUERY, [
-        relationship.first_hero_id,
-        relationship.second_hero_id,
-        relationship.title,
-        relationship.description,
-      ]);
-    });
+function heroDataMapper(heroData) {
+  const attributes = heroData.attributes;
+  return {
+    hero_id: heroData.id,
+    hero_class: mapNameToClass(attributes.slug),
+    ...attributes,
+  };
 }
 
 async function bootStrapDB(pgClient) {
