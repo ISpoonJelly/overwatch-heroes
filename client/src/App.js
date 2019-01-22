@@ -27,7 +27,7 @@ class App extends Component {
               className="main-logo"
               src={Logo}
               alt="overwatch"
-              style={{ width: 300, display: 'block', margin: 'auto', 'margin-top': 30 }}
+              style={{ width: 300, display: 'block', margin: 'auto', marginTop: 30, marginBottom: 30 }}
             />
             <Route exact path='/' component={Heroes} />
             <Route exact path='/hero/:heroId' component={HeroDetails}/>

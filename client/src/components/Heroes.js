@@ -11,7 +11,7 @@ const HEROES_QUERY = gql`
       name
       heroClass
       imagePortrait
-      imageBackgroud
+      imageBackground
     }
   }
 `;

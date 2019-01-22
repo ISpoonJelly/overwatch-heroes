@@ -57,7 +57,7 @@ const HeroType = new GraphQLObjectType({
       type: GraphQLString,
       resolve: root => root.image_splash,
     },
-    imageBackgroud: {
+    imageBackground: {
       type: GraphQLString,
       resolve: root => root.image_card_background,
     },
@@ -74,14 +74,14 @@ const RootQuery = new GraphQLObjectType({
     hero: {
       type: HeroType,
       args: {
-        heroId: { type: new GraphQLNonNull(GraphQLID) },
+        heroId: { type: new GraphQLNonNull(GraphQLInt) },
       },
       resolve: async (_, { heroId }) => await getHero(heroId),
     },
     heroList: {
       type: new GraphQLList(HeroType),
       args: {
-        from: { type: new GraphQLNonNull(GraphQLID) },
+        from: { type: new GraphQLNonNull(GraphQLInt) },
         count: { type: GraphQLInt },
       },
       resolve: async (_, { from, count = 7 }) => await getHeroList(from, count),

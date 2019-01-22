@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import RoleItem from './RoleItem';
 
-const sectionStyle = image => {
+const backgroundStyle = image => {
   return {
     width: '100%',
     backgroundImage: `url(${image})`,
@@ -12,14 +12,14 @@ const sectionStyle = image => {
 };
 
 export default function HeroItem({
-  hero: { heroId, name, heroClass, imagePortrait, imageBackgroud },
+  hero: { heroId, name, heroClass, imagePortrait, imageBackground },
 }) {
   return (
-    <div className="card card-body mb-10" style={sectionStyle(imageBackgroud)}>
+    <div className="card card-body mb-10" style={backgroundStyle(imageBackground)}>
       <div className="row">
         <div className="col-md-2">
-          <h3 style={{ 'text-align': 'center' }}>{name}</h3>
-          <img src={imagePortrait} />
+          <h3 style={{ textAlign: 'center' }}>{name}</h3>
+          <img src={imagePortrait} alt='heroPortrait' />
         </div>
 
         <div className="col-md-8">
