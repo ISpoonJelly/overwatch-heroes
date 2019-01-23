@@ -68,6 +68,19 @@ const HeroType = new GraphQLObjectType({
   }),
 });
 
+const HeroListResponseType = new GraphQLObjectType({
+  name: 'HeroListResponse',
+  description: 'List of hero data and cursor information',
+  fields: () => ({
+    heroes: {
+      type: new GraphQLList(HeroType),
+    },
+    cursor: {
+      type: GraphQLInt,
+    },
+  }),
+});
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery',
   fields: {
@@ -79,12 +92,18 @@ const RootQuery = new GraphQLObjectType({
       resolve: async (_, { heroId }) => await getHero(heroId),
     },
     heroList: {
-      type: new GraphQLList(HeroType),
+      type: HeroListResponseType,
       args: {
-        from: { type: new GraphQLNonNull(GraphQLInt) },
+        cursor: { type: GraphQLInt },
         count: { type: GraphQLInt },
       },
-      resolve: async (_, { from, count = 7 }) => await getHeroList(from, count),
+      resolve: async (_, { cursor = 1, count = 7 }) => {
+        const heroList = await getHeroList(cursor, count);
+        return {
+          cursor: cursor + count,
+          heroes: heroList,
+        };
+      },
     },
   },
 });

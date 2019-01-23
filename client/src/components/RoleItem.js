@@ -26,7 +26,7 @@ export default function RoleItem({ heroClass }) {
   return (
     <div style={{ display: 'block', margin: 'auto' }}>
       <img src={icon} alt='roleIcon' />
-      <h3 style={{ textAlign: 'center' }}>{heroClass}</h3>
+      <h4 style={{ textAlign: 'center' }}>{heroClass}</h4>
     </div>
   );
 }

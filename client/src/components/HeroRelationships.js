@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function HeroRelationships({ relationships }) {
-  return (
+  return relationships.length ? (
     <div className="card card-body mb-10" style={{ background: 'transparent' }}>
       <div className="row">
         {relationships.map(relationship => {
@@ -19,5 +19,5 @@ export default function HeroRelationships({ relationships }) {
         })}
       </div>
     </div>
-  );
+  ) : null;
 }
