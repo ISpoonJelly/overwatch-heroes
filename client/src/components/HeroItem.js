@@ -1,8 +1,9 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 
 import RoleItem from './RoleItem';
+
+import { CenterDiv, CenterText } from '../styling/app';
 
 const backgroundStyle = image => {
   return {
@@ -18,17 +19,13 @@ export default function HeroItem({
     <div className="card card-body mb-10" style={backgroundStyle(imageBackground)}>
       <div className="row">
         <div className="col-md-3 ">
-          <h3 style={{ textAlign: 'center' }}>{name}</h3>
-          <img
-            src={imagePortrait}
-            alt="heroPortrait"
-            style={{ display: 'block', margin: 'auto', width: 'auto' }}
-          />
+          <h3 style={CenterText}>{name}</h3>
+          <img src={imagePortrait} alt="heroPortrait" style={CenterDiv} />
           <div className="row">
             <Link
               to={`/hero/${heroId}`}
               className="btn btn-secondary"
-              style={{ display: 'block', margin: 'auto', width: 'auto', minWidth: 150 }}
+              style={{ ...CenterDiv, minWidth: 150 }}
             >
               Details
             </Link>

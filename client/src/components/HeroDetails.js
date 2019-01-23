@@ -5,6 +5,9 @@ import gql from 'graphql-tag';
 import HeroRelationships from './HeroRelationships';
 import RoleItem from './RoleItem';
 
+import { CenterText, BackgroundStyle } from '../styling/app';
+import { BackGroundImage } from '../styling/heroDetails';
+
 const HERO_QUERY = gql`
   query heroQuery($heroId: Int!) {
     hero(heroId: $heroId) {
@@ -26,14 +29,6 @@ const HERO_QUERY = gql`
   }
 `;
 
-const backgroundStyle = image => {
-  return {
-    width: '100%',
-    height: '100%',
-    backgroundImage: `url(${image})`,
-  };
-};
-
 export class HeroDetails extends Component {
   render() {
     let { heroId } = this.props.match.params;
@@ -49,11 +44,11 @@ export class HeroDetails extends Component {
             return (
               <div
                 className="card card-body mb-10"
-                style={backgroundStyle(heroData.imageBackground)}
+                style={{ ...BackGroundImage, ...BackgroundStyle(heroData.imageBackground) }}
               >
                 <div className="row">
                   <div className="col-md-3">
-                    <h3 style={{ textAlign: 'center' }}>{heroData.name}</h3>
+                    <h3 style={CenterText}>{heroData.name}</h3>
                     <img src={heroData.imagePortrait} alt="heroPortrait" />
                   </div>
                   <div className="col-md-8" />

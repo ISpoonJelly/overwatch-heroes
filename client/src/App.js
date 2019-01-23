@@ -9,11 +9,9 @@ import HeroDetails from './components/HeroDetails';
 import NavBar from './components/NavBar';
 import Logo from './assets/Logo.png';
 
-import './App.css';
+import { MainLogo, CenterDiv } from './styling/app';
 
-const client = new ApolloClient({
-  uri: '/graphql',
-});
+const client = new ApolloClient({ uri: '/graphql' });
 
 class App extends Component {
   render() {
@@ -26,13 +24,7 @@ class App extends Component {
               className="main-logo"
               src={Logo}
               alt="overwatch"
-              style={{
-                width: 300,
-                display: 'block',
-                margin: 'auto',
-                marginTop: 30,
-                marginBottom: 30,
-              }}
+              style={{ ...MainLogo, ...CenterDiv }}
             />
             <Route exact path="/" component={Overwatch} />
             <Route exact path="/hero/:heroId" component={HeroDetails} />

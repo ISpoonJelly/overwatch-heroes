@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
+import { FilterInput } from '../styling/overwatch';
+
 import HeroList from './HeroList';
 
 const HEROES_QUERY = gql`
@@ -36,7 +38,7 @@ class Overwatch extends Component {
   render() {
     return (
       <div className="container">
-        <div className="input-group" style={{ marginBottom: '2%', marginLeft: '35%' }}>
+        <div className="input-group" style={FilterInput}>
           <div className="input-group-prepend">
             <span className="input-group-text">Filter</span>
           </div>
