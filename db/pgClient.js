@@ -23,6 +23,7 @@ async function initDb() {
 }
 
 const pgClient = new Client({
+  connectionString: config.db.uri,
   user: config.db.user,
   password: config.db.password,
   database: config.db.database || config.db.user,
