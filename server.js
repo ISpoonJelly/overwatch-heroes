@@ -2,6 +2,8 @@ const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const cors = require('cors');
 
+const path = require('path');
+
 const { initDb } = require('./db/pgClient');
 const schema = require('./graphQL/schema');
 
@@ -22,6 +24,11 @@ app.use(
   }),
 );
 
+app.use(express.static('public'));
+
+app.get('*', (_, res) => {
+  res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`App listetning on port ${PORT}`);
