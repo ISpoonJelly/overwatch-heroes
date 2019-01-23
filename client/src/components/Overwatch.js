@@ -26,30 +26,29 @@ class Overwatch extends Component {
       heroFilter: '',
     };
   }
-  componentDidMount() {
-    const ctx = this;
 
-    document.getElementById('heroFilterInput').oninput = function(event) {
-      const filterVal = event.target.value;
-      ctx.setState({
-        heroFilter: filterVal,
-      });
-    };
-  }
-
-  componentWillUnmount() {
-    document.getElementById('heroFilterInput').oninput = undefined;
+  filterList(event) {
+    this.setState({
+      heroFilter: event.target.value,
+    });
   }
 
   render() {
     return (
       <div className="container">
-        <input
-          id="heroFilterInput"
-          type="text"
-          name="name"
-          style={{ display: 'block', margin: 'auto', width: 'auto', marginBottom: 25 }}
-        />
+        <div className="input-group" style={{ marginBottom: '2%', marginLeft: '35%' }}>
+          <div className="input-group-prepend">
+            <span className="input-group-text">Filter</span>
+          </div>
+          <input
+            id="heroFilterInput"
+            name="hero"
+            type="text"
+            placeholder="Hero name..."
+            onChange={this.filterList.bind(this)}
+          />
+        </div>
+
         <Query query={HEROES_QUERY}>
           {({ loading, error, fetchMore, data: { heroList } }) => {
             if (loading) return <h4>Loading...</h4>;
